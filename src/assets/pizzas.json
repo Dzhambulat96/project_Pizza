@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "imageUrl": "https://media.dodostatic.net/image/r:292x292/11EE7D6175C10773BFE36E56D48DF7E3.avif",
+        "title": "Маргарита",
+        "types": [
+            0,
+            1
+        ],
+        "sizes": [
+            26,
+            30,
+            40
+        ],
+        "price": 500,
+        "category": "Классическая",
+        "rating": 4.5
+    },
+    {
+        "id": 2,
+        "imageUrl": "https://media.dodostatic.net/image/r:292x292/11EE7D61706D472F9A5D71EB94149304.avif",
+        "title": "Пепперони",
+        "types": [
+            0,
+            1
+        ],
+        "sizes": [
+            26,
+            30
+        ],
+        "price": 550,
+        "category": "Классическая",
+        "rating": 4.7
+    },
+    {
+        "id": 3,
+        "imageUrl": "https://media.dodostatic.net/image/r:292x292/11EE7D60FDA22358AC33C6A44EB093A2.avif",
+        "title": "Гавайская",
+        "types": [
+            0,
+            1
+        ],
+        "sizes": [
+            26,
+            30,
+            30
+        ],
+        "price": 600,
+        "category": "Специальная",
+        "rating": 4.3
+    }
+]
