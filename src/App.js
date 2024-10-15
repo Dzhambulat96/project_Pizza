@@ -1,34 +1,29 @@
 import logo from './logo.svg';
 
 import Header from './components/Header';
-import Categories from './components/Categories';
-import Sort from './components/Sort';
-import PizaBlock from './components/PizaBlock';
-
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Cart from './pages/Cart';
+import React from 'react';
 import './scss/app.scss';
-import PizzaBlock from './components/PizaBlock';
-
-import pizzas from './assets/pizzas.json';
-
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Routes } from 'react-router-dom';
 
 
 
 function App() {
+
+
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {pizzas.map((obj) => (
-              <PizzaBlock {...obj} />
-            ))}
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="*" element={<NotFound />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
+          </Routes>
         </div>
       </div>
     </div>
