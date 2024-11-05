@@ -1,13 +1,19 @@
 import React from "react";
 
-function Sort() {
-    const sorts = ["популярности", "цене", "алфавиту"];
+function Sort({ value, onChangeSort }) {
+    const sorts = [
+        { name: 'популярности(DESC)', sort: '-rating' },
+        { name: 'популярности(ASC)', sort: 'rating' },
+        { name: 'цене(DESC)', sort: '-price' },
+        { name: 'цене(ASC)', sort: 'price' },
+        { name: 'алфавиту(DESC)', sort: '-title' },
+        { name: 'алфавиту(ASC)', sort: 'title' },
+    ];
 
     const [open, setOpen] = React.useState(false)
-    const [select, setSelect] = React.useState(0)
 
     const listSelet = (index) => {
-        setSelect(index);
+        onChangeSort(index);
         setOpen(!open)
     }
     return (
@@ -26,12 +32,12 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{sorts[select]}</span>
+                <span onClick={() => setOpen(!open)}>{value.name}</span>
             </div>
             {open && <div className="sort__popup">
                 <ul>
                     {sorts.map((el, i) => {
-                        return <li onClick={() => listSelet(i)} className={select === i ? "active" : ""}>{el}</li>
+                        return <li onClick={() => listSelet(el)} className={value.sort === el.sort ? "active" : ""}>{el.name}</li>
                     })}
                 </ul>
             </div>}
