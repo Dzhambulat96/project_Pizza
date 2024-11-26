@@ -1,6 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
@@ -11,42 +12,49 @@ import { SearchContext } from '../App';
 const Home = () => {
     const dispatch = useDispatch();
     const categoryId = useSelector((state) => state.filter.categoryId);
-    console.log('redux ', categoryId);
+    const sortType = useSelector((state) => state.filter.sort.sortProperty);
+    const currentPage = useSelector((state) => state.filter.pageCount);
 
 
     const { searchValue } = React.useContext(SearchContext);
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    // const [categoryId, setCategoryId] = React.useState(0);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [sortType, setsortType] = React.useState({ name: 'популярности', sort: 'rating' });
 
     const onChangeCategory = (id) => {
-        console.log("ВОТ ЭТО", setCategoryId(id));
+        dispatch(setCategoryId(id));
+    };
+
+    const onChangePage = (number) => {
+        dispatch(setCurrentPage(number));
     };
 
     React.useEffect(() => {
         setIsLoading(true)
 
-        const sortBy = sortType.sort;
+
         const category = categoryId > 0 ? `category=${categoryId}` : '';
         const search = searchValue ? `&title=*${searchValue}` : '';
 
-        fetch(`https://22a7cf6dea078a8a.mokky.dev/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}${search}`,
-        ).then((res) => {
-            return res.json();
-        }).then((json) => {
-            console.log(json)
-            setItems(json?.items || json)
-            setIsLoading(false)
-        })
+        // fetch(`https://22a7cf6dea078a8a.mokky.dev/items?page=${currentPage}&limit=4&${category}&sortBy=${sortType}${search}`,
+        // ).then((res) => {
+        //     return res.json();
+        // }).then((json) => {
+        //     console.log(json)
+        //     setItems(json?.items || json)
+        //     setIsLoading(false)
+        // })
+        axios.get(`https://22a7cf6dea078a8a.mokky.dev/items?page=${currentPage}&limit=4&${category}&sortBy=${sortType}${search}`).then((res) => {
+            setItems(res.data.items);
+            setIsLoading(false);
+        });
+
         window.scrollTo(0, 0);
     }, [categoryId, sortType, searchValue, currentPage]);
 
     return (
         <><div className="content__top">
             <Categories value={categoryId} onClickCategory={onChangeCategory} />
-            <Sort value={sortType} onChangeSort={(id) => setsortType(id)} />
+            <Sort />
         </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
@@ -54,7 +62,7 @@ const Home = () => {
                     <PizzaBlock {...obj} />
                 ))}
             </div>
-            <Pagination onChangePage={(number) => setCurrentPage(number)} />
+            <Pagination currentPage={currentPage} onChangePage={onChangePage} />
         </>
 
     )

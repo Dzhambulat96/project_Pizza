@@ -1,19 +1,23 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { setSort } from '../redux/slices/filterSlice';
 
-function Sort({ value, onChangeSort }) {
+function Sort() {
+    const dispatch = useDispatch();
+    const sort = useSelector((state) => state.filter.sort);
     const sorts = [
-        { name: 'популярности(DESC)', sort: '-rating' },
-        { name: 'популярности(ASC)', sort: 'rating' },
-        { name: 'цене(DESC)', sort: '-price' },
-        { name: 'цене(ASC)', sort: 'price' },
-        { name: 'алфавиту(DESC)', sort: '-title' },
-        { name: 'алфавиту(ASC)', sort: 'title' },
+        { name: 'популярности(DESC)', sortProperty: '-rating' },
+        { name: 'популярности(ASC)', sortProperty: 'rating' },
+        { name: 'цене(DESC)', sortProperty: '-price' },
+        { name: 'цене(ASC)', sortProperty: 'price' },
+        { name: 'алфавиту(DESC)', sortProperty: '-title' },
+        { name: 'алфавиту(ASC)', sortProperty: 'title' },
     ];
 
     const [open, setOpen] = React.useState(false)
 
-    const listSelet = (index) => {
-        onChangeSort(index);
+    const listSelet = (obj) => {
+        dispatch(setSort(obj));
         setOpen(!open)
     }
     return (
@@ -32,12 +36,12 @@ function Sort({ value, onChangeSort }) {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpen(!open)}>{value.name}</span>
+                <span onClick={() => setOpen(!open)}>{sort.name}</span>
             </div>
             {open && <div className="sort__popup">
                 <ul>
                     {sorts.map((el, i) => {
-                        return <li onClick={() => listSelet(el)} className={value.sort === el.sort ? "active" : ""}>{el.name}</li>
+                        return <li onClick={() => listSelet(el)} className={sort.sortProperty === el.sortProperty ? "active" : ""}>{el.name}</li>
                     })}
                 </ul>
             </div>}
